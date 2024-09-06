@@ -11,41 +11,39 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.P1.Proyecto1Ruben_back.dto.ClienteDto;
-import com.P1.Proyecto1Ruben_back.entity.ClienteEntity;
-import com.P1.Proyecto1Ruben_back.provider.ClienteProvider;
+import com.P1.Proyecto1Ruben_back.entity.MarcaEntity;
+import com.P1.Proyecto1Ruben_back.provider.MarcaProvider;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
-@RequestMapping("/cliente")
-public class ClienteController {
-
+@RequestMapping("/marca")
+public class MarcaController {
 	@Autowired
-	private ClienteProvider provider;
+	private MarcaProvider provider;
 	
 	@GetMapping("/all")
-	public List<ClienteEntity> allClients(){
-		return provider.allClients();
+	public List<MarcaEntity> allMarcas(){
+		return provider.allMarcas();
 	}
 	
-	@GetMapping("/nombre/{nombre}")
-	public List<ClienteEntity> findByName(@PathVariable("nombre") String name) {
-		return provider.findByName(name);
+	@GetMapping("/{id}")
+	public MarcaEntity findById(@PathVariable Long id) {
+		return provider.findMarcaById(id);
 	}
 	
 	@PostMapping("/create")
-	public ClienteEntity createPerson(@RequestBody ClienteDto cliente) {
-		return provider.create(cliente);
+	public MarcaEntity createPerson(@RequestBody MarcaEntity marca) {
+		return provider.createMarca(marca);
 	}
 	
 	@PutMapping("/update/{id}")
-	public ClienteEntity updatePerson(@PathVariable int id ,@RequestBody ClienteEntity cliente) {
-		return provider.update(cliente);
+	public MarcaEntity updatePerson(@PathVariable int id ,@RequestBody MarcaEntity marca) {
+		return provider.updateMarca(marca);
 	}
 	
 	@DeleteMapping("/delete/{id}")
 	public void deletePerson(@PathVariable Long id) {
-		provider.deleteById(id);
+		provider.deleteMarcaById(id);
 	}
 }

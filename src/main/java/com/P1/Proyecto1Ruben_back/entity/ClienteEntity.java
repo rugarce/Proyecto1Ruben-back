@@ -14,7 +14,7 @@ public class ClienteEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Getter
-    private Integer id;
+    private Long id;
 	
 	@Getter
 	@Setter
@@ -28,5 +28,6 @@ public class ClienteEntity {
 	@Getter
 	@Setter
     private String tfno;
-
+	
 }
+

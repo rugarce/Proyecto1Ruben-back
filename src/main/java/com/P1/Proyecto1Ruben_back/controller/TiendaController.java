@@ -11,41 +11,39 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.P1.Proyecto1Ruben_back.dto.ClienteDto;
-import com.P1.Proyecto1Ruben_back.entity.ClienteEntity;
-import com.P1.Proyecto1Ruben_back.provider.ClienteProvider;
+import com.P1.Proyecto1Ruben_back.entity.TiendaEntity;
+import com.P1.Proyecto1Ruben_back.provider.TiendaProvider;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
-@RequestMapping("/cliente")
-public class ClienteController {
-
+@RequestMapping("/tienda")
+public class TiendaController {
 	@Autowired
-	private ClienteProvider provider;
+	private TiendaProvider provider;
 	
 	@GetMapping("/all")
-	public List<ClienteEntity> allClients(){
-		return provider.allClients();
+	public List<TiendaEntity> allTiendas(){
+		return provider.allTiendas();
 	}
 	
 	@GetMapping("/nombre/{nombre}")
-	public List<ClienteEntity> findByName(@PathVariable("nombre") String name) {
-		return provider.findByName(name);
+	public TiendaEntity findById(@PathVariable Long id) {
+		return provider.findTiendaById(id);
 	}
 	
 	@PostMapping("/create")
-	public ClienteEntity createPerson(@RequestBody ClienteDto cliente) {
-		return provider.create(cliente);
+	public TiendaEntity createPerson(@RequestBody TiendaEntity tienda) {
+		return provider.createTienda(tienda);
 	}
 	
 	@PutMapping("/update/{id}")
-	public ClienteEntity updatePerson(@PathVariable int id ,@RequestBody ClienteEntity cliente) {
-		return provider.update(cliente);
+	public TiendaEntity updatePerson(@PathVariable int id ,@RequestBody TiendaEntity tienda) {
+		return provider.updateTienda(tienda);
 	}
 	
 	@DeleteMapping("/delete/{id}")
 	public void deletePerson(@PathVariable Long id) {
-		provider.deleteById(id);
+		provider.deleteTiendaById(id);
 	}
 }
