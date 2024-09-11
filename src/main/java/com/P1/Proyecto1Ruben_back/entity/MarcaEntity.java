@@ -8,6 +8,11 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Esta clase representa una marca en el sistema.
+ * Representa la tabla de la base de datos y se utiliza para mapear los datos entre el sistema y la base de datos.
+ */
+
 @Entity
 @Table(name = "marca")
 public class MarcaEntity {

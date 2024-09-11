@@ -6,3 +6,4 @@ spring:
     driverClassName: org.sqlite.JDBC
   jpa:
     database-platform: org.hibernate.community.dialect.SQLiteDialect
+    show-sql: true
