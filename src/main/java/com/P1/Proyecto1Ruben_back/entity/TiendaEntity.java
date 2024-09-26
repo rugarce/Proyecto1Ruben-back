@@ -20,7 +20,7 @@ public class TiendaEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Getter
-    private Integer id;
+    private Long id;
 
     @Column(unique = true)
     @Getter

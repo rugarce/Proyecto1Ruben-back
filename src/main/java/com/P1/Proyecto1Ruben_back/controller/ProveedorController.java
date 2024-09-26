@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.P1.Proyecto1Ruben_back.dto.MessageResponseDto;
 import com.P1.Proyecto1Ruben_back.dto.ProveedorDto;
-import com.P1.Proyecto1Ruben_back.entity.ProveedorEntity;
 import com.P1.Proyecto1Ruben_back.provider.ProveedorProvider;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -38,7 +37,7 @@ public class ProveedorController {
      * @return Un mensaje con la lista de todas las entidades proveedor, o un mensaje de error ante cualquier excepcion.
      */
 	@GetMapping("/all")
-	public MessageResponseDto<List<ProveedorEntity>> allProveedores(){
+	public MessageResponseDto<List<ProveedorDto>> allProveedores(){
 		try {
 			return MessageResponseDto.success(provider.allProveedores());
 		}catch(Exception e) {
@@ -54,7 +53,7 @@ public class ProveedorController {
      *         o un mensaje de error si no se encuentra.
      */
 	@GetMapping("/{id}")
-	public MessageResponseDto<ProveedorEntity> findById(@PathVariable Long id) {
+	public MessageResponseDto<ProveedorDto> findById(@PathVariable Long id) {
 		try {
 			return MessageResponseDto.success(provider.findProveedorById(id));
 		}catch(EntityNotFoundException e) {
@@ -70,7 +69,7 @@ public class ProveedorController {
      *         si algun dato introducido no existe.
      */
 	@PostMapping("/create")
-	public ProveedorEntity createPerson(@RequestBody ProveedorDto proveedor) {
+	public Long createPerson(@RequestBody ProveedorDto proveedor) {
 		return provider.createProveedor(proveedor);
 	}
 	
@@ -83,7 +82,7 @@ public class ProveedorController {
      *         o un mensaje de error si el proveedor no se encuentra.
      */
 	@PutMapping("/update/{id}")
-	public MessageResponseDto<ProveedorEntity> updatePerson(@PathVariable Long id ,@RequestBody ProveedorDto proveedor) {
+	public MessageResponseDto<ProveedorDto> updatePerson(@PathVariable Long id ,@RequestBody ProveedorDto proveedor) {
 		try {
 			return MessageResponseDto.success(provider.updateProveedor(id, proveedor));
 		}catch(EntityNotFoundException e) {

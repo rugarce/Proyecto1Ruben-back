@@ -1,5 +1,6 @@
 package com.P1.Proyecto1Ruben_back.provider.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -23,19 +24,21 @@ public class ClienteProviderImpl implements ClienteProvider{
 	ModelMapper modelMapper;
 
 	@Override
-	public ClienteEntity findClienteById(Long id) {
-		return repository.findById(id).orElseThrow( () -> new EntityNotFoundException("El cliente con ID " + id + " no existe."));
+	public ClienteDto findClienteById(Long id) {
+		ClienteEntity clienteEntity = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("El cliente con ID " + id + " no existe."));
+		ClienteDto clienteDto = modelMapper.map(clienteEntity, ClienteDto.class);
+		return clienteDto;
 	}
 
 	@Override
-	public ClienteEntity createCliente(ClienteDto cliente) {
+	public Long createCliente(ClienteDto cliente) {
 		ClienteEntity clienteEntity = modelMapper.map(cliente, ClienteEntity.class);
-		
-		return repository.save(clienteEntity);
+		repository.save(clienteEntity);
+		return clienteEntity.getId();
 	}
 
 	@Override
-	public ClienteEntity updateCliente(Long id, ClienteDto cliente) {
+	public ClienteDto updateCliente(Long id, ClienteDto cliente) {
 		ClienteEntity clienteEntity = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("El cliente con ID " + id + " no existe."));
 		ClienteEntity clienteActualizado = modelMapper.map(cliente, ClienteEntity.class);
 		clienteEntity.setNombre(clienteActualizado.getNombre());
@@ -43,7 +46,8 @@ public class ClienteProviderImpl implements ClienteProvider{
 		clienteEntity.setApellido2(clienteActualizado.getApellido2());
 		clienteEntity.setDireccion(clienteActualizado.getDireccion());
 		clienteEntity.setTfno(clienteActualizado.getTfno());
-		return repository.save(clienteEntity);
+		repository.save(clienteEntity);
+		return cliente = modelMapper.map(clienteEntity, ClienteDto.class);
 	}
 
 	@Override
@@ -53,14 +57,26 @@ public class ClienteProviderImpl implements ClienteProvider{
 	}
 
 	@Override
-	public List<ClienteEntity> allClients() {
-		return repository.findAll();
+	public List<ClienteDto> allClients() {
+		List<ClienteEntity> listaEntity = repository.findAll();
+		List<ClienteDto> listaDto = new ArrayList<ClienteDto>();
+		for(ClienteEntity l :listaEntity) {
+			ClienteDto clienteDto = modelMapper.map(l, ClienteDto.class);
+			listaDto.add(clienteDto);
+		}
+		return listaDto;
 	}
 
 	@Override
-	public List<ClienteEntity> findClienteByName(String name) {
+	public List<ClienteDto> findClienteByName(String name) {
 		if(!repository.findByName(name).isEmpty()){
-			return repository.findByName(name);
+			List<ClienteEntity> listclienteEntity= repository.findByName(name);
+			List<ClienteDto> listaDto = new ArrayList<ClienteDto>();
+			for(ClienteEntity l :listclienteEntity) {
+				ClienteDto clienteDto = modelMapper.map(l, ClienteDto.class);
+				listaDto.add(clienteDto);
+			}
+			return listaDto;
 		}else {
 			throw new EntityNotFoundException("El cliente con nombre " + name + " no existe.");
 		}
@@ -68,10 +84,16 @@ public class ClienteProviderImpl implements ClienteProvider{
 	}
 
 	@Override
-	public List<ClienteEntity> buscarClientes(String nombre, String apellido1, String apellido2, String direccion,
+	public List<ClienteDto> buscarClientes(String nombre, String apellido1, String apellido2, String direccion,
 			String tfno) {
 		if(!repository.findByNombreAndApellido1AndApellido2AndDireccionAndTfno(nombre, apellido1, apellido2, direccion, tfno).isEmpty()){
-			return repository.findByNombreAndApellido1AndApellido2AndDireccionAndTfno(nombre, apellido1, apellido2, direccion, tfno);
+			List<ClienteEntity> listclienteEntity= repository.findByNombreAndApellido1AndApellido2AndDireccionAndTfno(nombre, apellido1, apellido2, direccion, tfno);
+			List<ClienteDto> listaDto = new ArrayList<ClienteDto>();
+			for(ClienteEntity l :listclienteEntity) {
+				ClienteDto clienteDto = modelMapper.map(l, ClienteDto.class);
+				listaDto.add(clienteDto);
+			}
+			return listaDto;
 		}else {
 			throw new EntityNotFoundException("El cliente con esos datos no existe.");
 		}

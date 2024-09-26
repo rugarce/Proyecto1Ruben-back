@@ -1,5 +1,6 @@
 package com.P1.Proyecto1Ruben_back.provider.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -20,31 +21,36 @@ public class VentaProviderImpl implements VentaProvider {
 	@Autowired
 	private VentaRepository repository;
 	@Autowired
-	ModelMapper modelMapped;
+	ModelMapper modelMapper;
 
 	@Override
-	public VentaEntity findVentaById(Long id) {
-		return repository.findById(id).orElseThrow( () -> new EntityNotFoundException("El producto con ID " + id + " no existe."));
-	}
-
-	@Override
-	public VentaEntity createVenta(VentaDto venta) {
-		VentaEntity ventaEntity = modelMapped.map(venta, VentaEntity.class);
-//		ventaEntity.getProducto().setCantidad(ventaEntity.getProducto().getCantidad() - 1);
-		return repository.save(ventaEntity);
-	}
-
-	@Override
-	public VentaEntity updateVenta(Long id, VentaDto venta) {
+	public VentaDto findVentaById(Long id) {
 		VentaEntity ventaEntity = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("El producto con ID " + id + " no existe."));
-		VentaEntity ventaActualizada = modelMapped.map(venta, VentaEntity.class);
+		VentaDto ventaDto =  modelMapper.map(ventaEntity, VentaDto.class);
+		return ventaDto;
+	}
+
+	@Override
+	public Long createVenta(VentaDto venta) {
+		VentaEntity ventaEntity = modelMapper.map(venta, VentaEntity.class);
+		ventaEntity = repository.save(ventaEntity);
+//		ventaEntity.getProducto().setCantidad(ventaEntity.getProducto().getCantidad() - 1);
+		return ventaEntity.getId();
+	}
+
+	@Override
+	public VentaDto updateVenta(Long id, VentaDto venta) {
+		VentaEntity ventaEntity = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("El producto con ID " + id + " no existe."));
+		VentaEntity ventaActualizada = modelMapper.map(venta, VentaEntity.class);
 		
 //		ventaEntity.getProducto().setCantidad(ventaEntity.getProducto().getCantidad() + 1);
 //		ventaActualizada.getProducto().setCantidad(ventaActualizada.getProducto().getCantidad() - 1);
 		
 		ventaEntity.setId_cliente(ventaActualizada.getId_cliente());
 		ventaEntity.setId_producto(ventaActualizada.getId_producto());
-		return repository.save(ventaEntity);
+		repository.save(ventaEntity);
+		venta = modelMapper.map(ventaEntity, VentaDto.class);
+		return venta;
 	}
 
 	@Override
@@ -55,8 +61,14 @@ public class VentaProviderImpl implements VentaProvider {
 	}
 
 	@Override
-	public List<VentaEntity> allVentas() {
-		return repository.findAll();
+	public List<VentaDto> allVentas() {
+		List<VentaEntity> listaEntity = repository.findAll();
+		List<VentaDto> listaDto = new ArrayList<VentaDto>();
+		for(VentaEntity l :listaEntity) {
+			VentaDto ventaDto = modelMapper.map(l, VentaDto.class);
+			listaDto.add(ventaDto);
+		}
+		return listaDto;
 	}
 
 }

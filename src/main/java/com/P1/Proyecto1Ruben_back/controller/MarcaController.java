@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.P1.Proyecto1Ruben_back.dto.MarcaDto;
 import com.P1.Proyecto1Ruben_back.dto.MessageResponseDto;
-import com.P1.Proyecto1Ruben_back.entity.MarcaEntity;
 import com.P1.Proyecto1Ruben_back.provider.MarcaProvider;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -38,7 +37,7 @@ public class MarcaController {
      * @return Un mensaje con la lista de todas las entidades marca, o un mensaje de error ante cualquier excepcion.
      */
 	@GetMapping("/all")
-	public MessageResponseDto<List<MarcaEntity>> allMarcas(){
+	public MessageResponseDto<List<MarcaDto>> allMarcas(){
 		try {
 			return MessageResponseDto.success(provider.allMarcas());
 		}catch(Exception e) {
@@ -54,7 +53,7 @@ public class MarcaController {
      *         o un mensaje de error si no se encuentra.
      */
 	@GetMapping("/{id}")
-	public MessageResponseDto<MarcaEntity> findById(@PathVariable Long id) {
+	public MessageResponseDto<MarcaDto> findById(@PathVariable Long id) {
 		try {
 			return MessageResponseDto.success(provider.findMarcaById(id));
 		}catch(EntityNotFoundException e) {
@@ -71,7 +70,7 @@ public class MarcaController {
      *         si algun dato introducido no existe.
      */
 	@PostMapping("/create")
-	public MarcaEntity createPerson(@RequestBody MarcaDto marca) {
+	public Long createPerson(@RequestBody MarcaDto marca) {
 		return provider.createMarca(marca);
 	}
 	
@@ -84,7 +83,7 @@ public class MarcaController {
      *         o un mensaje de error si la marca no se encuentra.
      */
 	@PutMapping("/update/{id}")
-	public MessageResponseDto<MarcaEntity> updatePerson(@PathVariable Long id ,@RequestBody MarcaDto marca) {
+	public MessageResponseDto<MarcaDto> updatePerson(@PathVariable Long id ,@RequestBody MarcaDto marca) {
 		try {
 			return MessageResponseDto.success(provider.updateMarca(id, marca));
 		}catch(EntityNotFoundException e) {

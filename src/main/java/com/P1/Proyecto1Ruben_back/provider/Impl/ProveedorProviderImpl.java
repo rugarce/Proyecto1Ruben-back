@@ -1,5 +1,6 @@
 package com.P1.Proyecto1Ruben_back.provider.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -22,25 +23,29 @@ public class ProveedorProviderImpl implements ProveedorProvider{
 	ProveedorRepository repository;
 
 	@Override
-	public ProveedorEntity findProveedorById(Long id) {
-		return repository.findById(id).orElseThrow( () -> new EntityNotFoundException("El proveedor con ID " + id + " no existe."));
+	public ProveedorDto findProveedorById(Long id) {
+		ProveedorEntity proveedorEntity= repository.findById(id).orElseThrow( () -> new EntityNotFoundException("El proveedor con ID " + id + " no existe."));
+		ProveedorDto proveedorDto = modelMapper.map(proveedorEntity, ProveedorDto.class);
+		return proveedorDto;
 	}
 
 	@Override
-	public ProveedorEntity createProveedor(ProveedorDto proveedor) {
+	public Long createProveedor(ProveedorDto proveedor) {
 		ProveedorEntity proveedorEntity = modelMapper.map(proveedor, ProveedorEntity.class);
-		return repository.save(proveedorEntity);
+		repository.save(proveedorEntity);
+		return proveedorEntity.getId();
 	}
 
 	@Override
-	public ProveedorEntity updateProveedor(Long id, ProveedorDto proveedor) {
+	public ProveedorDto updateProveedor(Long id, ProveedorDto proveedor) {
 		ProveedorEntity proveedorEntity = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("El proveedor con ID " + id + " no existe."));
 		if(proveedorEntity!=null) {
 			ProveedorEntity proveedorActualizado = modelMapper.map(proveedor, ProveedorEntity.class);
 			proveedorEntity.setNombre(proveedorActualizado.getNombre());
 			proveedorEntity.setDireccion(proveedorActualizado.getDireccion());
 			proveedorEntity.setTfno(proveedorActualizado.getTfno());
-			return repository.save(proveedorEntity);
+			repository.save(proveedorEntity);
+			return proveedor = modelMapper.map(proveedorEntity, ProveedorDto.class);
 		}else {
 			throw new RuntimeException("Proveedor no encontrado");
 		}
@@ -53,8 +58,14 @@ public class ProveedorProviderImpl implements ProveedorProvider{
 	}
 
 	@Override
-	public List<ProveedorEntity> allProveedores() {
-		return repository.findAll();
+	public List<ProveedorDto> allProveedores() {
+		List<ProveedorEntity> listaEntity = repository.findAll();
+		List<ProveedorDto> listaDto = new ArrayList<ProveedorDto>();
+		for(ProveedorEntity l :listaEntity) {
+			ProveedorDto proveedorDto = modelMapper.map(l, ProveedorDto.class);
+			listaDto.add(proveedorDto);
+		}
+		return listaDto;
 	}
 
 }

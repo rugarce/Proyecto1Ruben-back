@@ -3,7 +3,6 @@ package com.P1.Proyecto1Ruben_back.provider;
 import java.util.List;
 
 import com.P1.Proyecto1Ruben_back.dto.ClienteDto;
-import com.P1.Proyecto1Ruben_back.entity.ClienteEntity;
 
 /**
  * Interfaz de las operaciones de los clientes.
@@ -16,21 +15,21 @@ public interface ClienteProvider {
 	 * @param id El identificador del cliente a buscar.
 	 * @return La entidad cliente correspondiente al identificador id.
 	 */
-	ClienteEntity findClienteById(Long id);
+	ClienteDto findClienteById(Long id);
 	
 	/**
 	 * Encuentra/Busca un cliente por su nombre.
 	 * @param name El nombre del cliente a buscar.
 	 * @return Una lista de entidades cliente cuyos nombres son name.
 	 */
-	List<ClienteEntity> findClienteByName(String name);
+	List<ClienteDto> findClienteByName(String name);
 	
 	/**
 	 * Crea un cliente con la información proporcionada.
      * @param cliente Un objeto ClienteDto que contiene la informacion del cliente a crear.
      * @return La entidad cliente creada, con su identificador generado.
 	 */
-	ClienteEntity createCliente(ClienteDto cliente);
+	Long createCliente(ClienteDto cliente);
 	
 	/**
 	 * Actualiza un cliente que existe con la información proporcionada.
@@ -38,7 +37,7 @@ public interface ClienteProvider {
      * @param cliente Un objeto ClienteDto que contiene la información actualizada del cliente.
      * @return La entidad cliente actualizada.
 	 */
-	ClienteEntity updateCliente(Long id, ClienteDto cliente);
+	ClienteDto updateCliente(Long id, ClienteDto cliente);
 	
 	/**
 	 * Elimina un cliente por su id. 
@@ -51,7 +50,7 @@ public interface ClienteProvider {
      * 
      * @return Una lista de entidades cliente que representa todos los clientes.
      */
-    public List<ClienteEntity> allClients();
+    public List<ClienteDto> allClients();
     
     /**
      * Encuentra/Busca al cliente según los parametros que especifices.
@@ -62,5 +61,5 @@ public interface ClienteProvider {
 	 * @param tfno Telefono del cliente(Opcional).
 	 * @return Devuelve una lista de los clientes cuyos datos coinciden con los valores de los parametros seleccionados. 
      */
-    public List<ClienteEntity> buscarClientes(String nombre, String apellido1, String apellido2, String direccion, String tfno);
+    public List<ClienteDto> buscarClientes(String nombre, String apellido1, String apellido2, String direccion, String tfno);
 }

@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.P1.Proyecto1Ruben_back.dto.MessageResponseDto;
 import com.P1.Proyecto1Ruben_back.dto.TiendaDto;
-import com.P1.Proyecto1Ruben_back.entity.TiendaEntity;
 import com.P1.Proyecto1Ruben_back.provider.TiendaProvider;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -38,7 +37,7 @@ public class TiendaController {
      * @return Un mensaje con la lista de todas las entidades tienda, o un mensaje de error ante cualquier excepcion.
      */
 	@GetMapping("/all")
-	public MessageResponseDto<List<TiendaEntity>> allTiendas(){
+	public MessageResponseDto<List<TiendaDto>> allTiendas(){
 		try {
 			return MessageResponseDto.success(provider.allTiendas());
 		}catch(Exception e) {
@@ -54,7 +53,7 @@ public class TiendaController {
      *         o un mensaje de error si no se encuentra.
      */
 	@GetMapping("/{id}")
-	public MessageResponseDto<TiendaEntity> findById(@PathVariable Long id) {
+	public MessageResponseDto<TiendaDto> findById(@PathVariable Long id) {
 		try {
 			return MessageResponseDto.success(provider.findTiendaById(id));
 		}catch(EntityNotFoundException e) {
@@ -70,7 +69,7 @@ public class TiendaController {
      *         si algun dato introducido no existe.
      */
 	@PostMapping("/create")
-	public TiendaEntity createTienda(@RequestBody TiendaDto tienda) {
+	public Long createTienda(@RequestBody TiendaDto tienda) {
 		return provider.createTienda(tienda);
 	}
 	
@@ -83,7 +82,7 @@ public class TiendaController {
      *         o un mensaje de error si la tienda no se encuentra.
      */
 	@PutMapping("/update/{id}")
-	public MessageResponseDto<TiendaEntity> updateTienda(@PathVariable Long id ,@RequestBody TiendaDto tienda) {
+	public MessageResponseDto<TiendaDto> updateTienda(@PathVariable Long id ,@RequestBody TiendaDto tienda) {
 		try {
 			return MessageResponseDto.success(provider.updateTienda(id, tienda));
 		}catch(EntityNotFoundException e) {

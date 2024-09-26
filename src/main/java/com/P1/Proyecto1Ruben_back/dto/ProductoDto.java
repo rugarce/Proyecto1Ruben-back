@@ -9,9 +9,9 @@ import lombok.Data;
 @Data
 public class ProductoDto {
 	String nombre;
-	Long idMarca;
-	Long id_proveedor;
-	Long id_tienda;
+	MarcaDto Marca;
+	ProveedorDto proveedor;
+	TiendaDto tienda;
 	Float precio;
 	Integer cantidad;
 }

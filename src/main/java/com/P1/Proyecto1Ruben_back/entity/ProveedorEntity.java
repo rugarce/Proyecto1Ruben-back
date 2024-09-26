@@ -19,7 +19,7 @@ public class ProveedorEntity {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Getter
-    private Integer id;
+    private Long id;
 
 	@Getter
 	@Setter

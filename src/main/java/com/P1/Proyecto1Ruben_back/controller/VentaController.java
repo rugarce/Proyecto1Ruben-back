@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.P1.Proyecto1Ruben_back.dto.MessageResponseDto;
 import com.P1.Proyecto1Ruben_back.dto.VentaDto;
-import com.P1.Proyecto1Ruben_back.entity.VentaEntity;
 import com.P1.Proyecto1Ruben_back.provider.VentaProvider;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -38,7 +37,7 @@ public class VentaController {
      * @return Un mensaje con la lista de todas las entidades venta, o un mensaje de error ante cualquier excepcion.
      */
 	@GetMapping("/all")
-	public MessageResponseDto<List<VentaEntity>> allVents(){
+	public MessageResponseDto<List<VentaDto>> allVents(){
 		try {
 			return MessageResponseDto.success(provider.allVentas());
 		}catch(Exception e) {
@@ -54,7 +53,7 @@ public class VentaController {
      *         si algun dato introducido no existe.
      */
 	@PostMapping("/create")
-	public MessageResponseDto<VentaEntity> createVenta(@RequestBody VentaDto venta) {
+	public MessageResponseDto<Long> createVenta(@RequestBody VentaDto venta) {
 		try {
 			return MessageResponseDto.success(provider.createVenta(venta));
 		}catch(EntityNotFoundException e) {
@@ -70,7 +69,7 @@ public class VentaController {
      *         o un mensaje de error si no se encuentra.
      */
 	@GetMapping("/{id}")
-	public MessageResponseDto<VentaEntity> findById(@PathVariable Long id) {
+	public MessageResponseDto<VentaDto> findById(@PathVariable Long id) {
 		try {
 			return MessageResponseDto.success(provider.findVentaById(id));
 		}catch(EntityNotFoundException e) {
@@ -87,7 +86,7 @@ public class VentaController {
      *         o un mensaje de error si la venta no se encuentra.
      */
 	@PutMapping("/update/{id}")
-	public MessageResponseDto<VentaEntity> updateVenta(@PathVariable Long id ,@RequestBody VentaDto venta) {
+	public MessageResponseDto<VentaDto> updateVenta(@PathVariable Long id ,@RequestBody VentaDto venta) {
 		try {
 			return MessageResponseDto.success(provider.updateVenta(id, venta));
 		}catch(EntityNotFoundException e) {

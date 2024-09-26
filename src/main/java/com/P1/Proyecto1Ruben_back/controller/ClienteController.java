@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.P1.Proyecto1Ruben_back.dto.ClienteDto;
 import com.P1.Proyecto1Ruben_back.dto.MessageResponseDto;
-import com.P1.Proyecto1Ruben_back.entity.ClienteEntity;
 import com.P1.Proyecto1Ruben_back.provider.ClienteProvider;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -43,7 +42,7 @@ public class ClienteController {
      * @return Un mensaje con la lista de todas las entidades cliente, o un mensaje de error ante cualquier excepcion.
      */
 	@GetMapping("/all")
-	public MessageResponseDto<List<ClienteEntity>> allClients(){
+	public MessageResponseDto<List<ClienteDto>> allClients(){
 		try {
 			return MessageResponseDto.success(provider.allClients());
 		}catch(Exception e) {
@@ -58,7 +57,7 @@ public class ClienteController {
      * @return Un mensaje que contiene una lista de entidades cliente si se encuentra, o un mensaje de error si no se encuentra.
      *  */
 	@GetMapping("/nombre/{nombre}")
-	public MessageResponseDto<List<ClienteEntity>> findByName(@PathVariable("nombre") String name) {
+	public MessageResponseDto<List<ClienteDto>> findByName(@PathVariable("nombre") String name) {
 		try {
 			return MessageResponseDto.success(provider.findClienteByName(name)); 
 		}catch(EntityNotFoundException e) {
@@ -76,7 +75,7 @@ public class ClienteController {
 	 * @return Devuelve una lista de los clientes cuyos datos coinciden con los valores de los parametros seleccionados. 
      */
 	@GetMapping("/buscar")
-    public MessageResponseDto<List<ClienteEntity>> buscarClientes(
+    public MessageResponseDto<List<ClienteDto>> buscarClientes(
             @RequestParam(required = false) String nombre,
             @RequestParam(required = false) String apellido1,
             @RequestParam(required = false) String apellido2,
@@ -96,7 +95,7 @@ public class ClienteController {
      * @return Un mensaje que contiene la entidad cliente si se encuentra, o un mensaje de error si no se encuentra.
      *  */
 	@GetMapping("/{id}")
-	public MessageResponseDto<ClienteEntity> findById(@PathVariable Long id) {
+	public MessageResponseDto<ClienteDto> findById(@PathVariable Long id) {
 		try {
 			return MessageResponseDto.success(provider.findClienteById(id));
 		}catch(EntityNotFoundException e) {
@@ -113,7 +112,7 @@ public class ClienteController {
      *         si algun dato introducido no existe.
      */
 	@PostMapping("/create")
-	public ClienteEntity createPerson(@RequestBody ClienteDto cliente) {
+	public Long createClient(@RequestBody ClienteDto cliente) {
 		return provider.createCliente(cliente);
 	}
 	
@@ -126,7 +125,7 @@ public class ClienteController {
      *         o un mensaje de error si el cliente no se encuentra.
      */
 	@PutMapping("/update/{id}")
-	public MessageResponseDto<ClienteEntity> updatePerson(@PathVariable Long id ,@RequestBody ClienteDto cliente) {
+	public MessageResponseDto<ClienteDto> updatePerson(@PathVariable Long id ,@RequestBody ClienteDto cliente) {
 		try {
 			return MessageResponseDto.success(provider.updateCliente(id,cliente));
 		}catch(EntityNotFoundException e) {

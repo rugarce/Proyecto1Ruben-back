@@ -3,7 +3,6 @@ package com.P1.Proyecto1Ruben_back.provider;
 import java.util.List;
 
 import com.P1.Proyecto1Ruben_back.dto.TiendaDto;
-import com.P1.Proyecto1Ruben_back.entity.TiendaEntity;
 
 /**
  * Interfaz de las operaciones de las tiendas.
@@ -16,14 +15,14 @@ public interface TiendaProvider {
 	 * @param id El identificador de la tienda a buscar.
 	 * @return La entidad tienda correspondiente al identificador id.
 	 */
-	TiendaEntity findTiendaById(Long id);
+	TiendaDto findTiendaById(Long id);
 	
 	/**
 	 * Crea una nueva tienda con la información proporcionada.
      * @param tienda Un objeto TiendaDto que contiene la informacion de la tienda a crear.
      * @return La entidad tienda creada, con su identificador generado.
 	 */
-	TiendaEntity createTienda(TiendaDto tienda);
+	Long createTienda(TiendaDto tienda);
 	
 	/**
 	 * Actualiza una tienda que existe con la información proporcionada.
@@ -31,7 +30,7 @@ public interface TiendaProvider {
      * @param tienda Un objeto TiendaDto que contiene la información actualizada de la tienda.
      * @return La entidad tienda actualizada.
 	 */
-	TiendaEntity updateTienda(Long id, TiendaDto tienda);
+	TiendaDto updateTienda(Long id, TiendaDto tienda);
 	
 	/**
 	 * Elimina una tienda por su id. 
@@ -44,5 +43,5 @@ public interface TiendaProvider {
      * 
      * @return Una lista de entidades tienda que representa todas las tiendas.
      */
-    public List<TiendaEntity> allTiendas();
+    public List<TiendaDto> allTiendas();
 }

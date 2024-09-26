@@ -1,5 +1,6 @@
 package com.P1.Proyecto1Ruben_back.provider.Impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -23,23 +24,27 @@ public class TiendaProviderImpl implements TiendaProvider {
 	private TiendaRepository repository;
 
 	@Override
-	public TiendaEntity findTiendaById(Long id) {
-		return repository.findById(id).orElseThrow( () -> new EntityNotFoundException("La tienda con ID " + id + " no existe."));
+	public TiendaDto findTiendaById(Long id) {
+		TiendaEntity tiendaEntity= repository.findById(id).orElseThrow( () -> new EntityNotFoundException("La tienda con ID " + id + " no existe."));
+		TiendaDto tiendaDto= modelMapper.map(tiendaEntity, TiendaDto.class);
+		return tiendaDto;
 	}
 
 	@Override
-	public TiendaEntity createTienda(TiendaDto tienda) {
+	public Long createTienda(TiendaDto tienda) {
 		TiendaEntity tiendaEntity= modelMapper.map(tienda, TiendaEntity.class);
-		return repository.save(tiendaEntity);
+		repository.save(tiendaEntity);
+		return tiendaEntity.getId();
 	}
 
 	@Override
-	public TiendaEntity updateTienda(Long id, TiendaDto tienda) {
+	public TiendaDto updateTienda(Long id, TiendaDto tienda) {
 		TiendaEntity tiendaEntity = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("La tienda con ID " + id + " no existe."));
 		TiendaEntity tiendaActualizada= modelMapper.map(tienda, TiendaEntity.class);
 		tiendaEntity.setNombre(tiendaActualizada.getNombre());
 		tiendaEntity.setDireccion(tiendaActualizada.getDireccion());
-		return repository.save(tiendaEntity);
+		repository.save(tiendaEntity);
+		return tienda= modelMapper.map(tiendaEntity, TiendaDto.class);
 	}
 
 	@Override
@@ -49,8 +54,14 @@ public class TiendaProviderImpl implements TiendaProvider {
 	}
 
 	@Override
-	public List<TiendaEntity> allTiendas() {
-		return repository.findAll();
+	public List<TiendaDto> allTiendas() {
+		List<TiendaEntity> listaEntity = repository.findAll();
+		List<TiendaDto> listaDto = new ArrayList<TiendaDto>();
+		for(TiendaEntity l :listaEntity) {
+			TiendaDto tiendaDto = modelMapper.map(l, TiendaDto.class);
+			listaDto.add(tiendaDto);
+		}
+		return listaDto;
 	}
 
 }
