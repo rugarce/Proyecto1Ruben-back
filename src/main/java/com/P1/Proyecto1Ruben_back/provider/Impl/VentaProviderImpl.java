@@ -55,8 +55,8 @@ public class VentaProviderImpl implements VentaProvider {
 
 	@Override
 	public void deleteVentaById(Long id) {
-		VentaEntity ventaEntity = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("El producto con ID " + id + " no existe."));
-		ventaEntity.getProducto().setCantidad(ventaEntity.getProducto().getCantidad() + 1);
+		//VentaEntity ventaEntity = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("El producto con ID " + id + " no existe."));
+		//ventaEntity.getProducto().setCantidad(ventaEntity.getProducto().getCantidad() + 1);
 		repository.deleteById(id);
 	}
 

@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class ClienteDto {
+	Long id;
 	String nombre;
 	String apellido1;
 	String apellido2;

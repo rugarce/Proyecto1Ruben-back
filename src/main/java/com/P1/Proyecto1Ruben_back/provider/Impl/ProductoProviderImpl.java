@@ -6,10 +6,13 @@ import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.P1.Proyecto1Ruben_back.dto.PaginadoDto;
+import com.P1.Proyecto1Ruben_back.dto.ProductoAllDto;
 import com.P1.Proyecto1Ruben_back.dto.ProductoDto;
 import com.P1.Proyecto1Ruben_back.entity.ProductoEntity;
 import com.P1.Proyecto1Ruben_back.provider.ProductoProvider;
@@ -27,9 +30,9 @@ public class ProductoProviderImpl implements ProductoProvider {
 	ModelMapper modelMapper;
 
 	@Override
-	public ProductoDto findProductoById(Long id) {
+	public ProductoAllDto findProductoById(Long id) {
 		ProductoEntity productoEntity = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("El producto con ID " + id + " no existe."));
-		ProductoDto productoDto= modelMapper.map(productoEntity, ProductoDto.class);
+		ProductoAllDto productoDto= modelMapper.map(productoEntity, ProductoAllDto.class);
 		return productoDto;
 	}
 
@@ -47,7 +50,7 @@ public class ProductoProviderImpl implements ProductoProvider {
 		productoEntity.setNombre(productoActualizado.getNombre());
 		productoEntity.setCantidad(productoActualizado.getCantidad());
 		productoEntity.setPrecio(productoActualizado.getPrecio());
-		productoEntity.setIdMarca(productoActualizado.getIdMarca());
+		productoEntity.setId_marca(productoActualizado.getId_marca());
 		productoEntity.setId_proveedor(productoActualizado.getId_proveedor());
 		productoEntity.setId_tienda(productoActualizado.getId_tienda());
 		repository.save(productoEntity);
@@ -62,26 +65,23 @@ public class ProductoProviderImpl implements ProductoProvider {
 	}
 
 	@Override
-	public List<ProductoDto> allProducts() {
+	public List<ProductoAllDto> allProducts() {
 		List<ProductoEntity> listaEntity = repository.findAll();
-		List<ProductoDto> listaDto = new ArrayList<ProductoDto>();
+		List<ProductoAllDto> listaDto = new ArrayList<ProductoAllDto>();
 		for(ProductoEntity l :listaEntity) {
-			ProductoDto productoDto = modelMapper.map(l, ProductoDto.class);
+			ProductoAllDto productoDto = modelMapper.map(l, ProductoAllDto.class);
 			listaDto.add(productoDto);
 		}
 		return listaDto;
 	}
 
 	@Override
-	public List<ProductoDto> obtenerProductosPaginados(int NumPagina, int TamanoPagina) {
-		List<ProductoDto> result = new ArrayList<ProductoDto>();
-		Pageable page = PageRequest.of(0, 12);
-		if(NumPagina>=1 && TamanoPagina>=1) {
-			page = PageRequest.of(NumPagina, TamanoPagina);
-		}
-		List<ProductoEntity> allPaginated = repository.getAllPaginated(page);
-		for(ProductoEntity l :allPaginated) {
-			ProductoDto productoDto = modelMapper.map(l, ProductoDto.class);
+	public List<ProductoAllDto> obtenerProductosPaginados(PaginadoDto<ProductoDto> paginado) {
+		List<ProductoAllDto> result = new ArrayList<ProductoAllDto>();
+		Pageable page = PageRequest.of(0,12);
+		Page<ProductoEntity> allPaginated = repository.getAllPaginated2(page);
+		for(ProductoEntity l :allPaginated.getContent()) {
+			ProductoAllDto productoDto = modelMapper.map(l, ProductoAllDto.class);
 			result.add(productoDto);
 		}
 		return result;

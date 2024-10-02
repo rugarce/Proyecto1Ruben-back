@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class ProveedorDto {
+	Long id;
 	String nombre;
 	String direccion;
 	String tfno;

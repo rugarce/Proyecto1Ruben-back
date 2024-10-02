@@ -31,13 +31,14 @@ public class ProductoEntity {
 	@Getter
     @Setter
 	@Column(name = "id_marca")
-	Long idMarca;
+	Long id_marca;
 	
 	@Getter
     @Setter
 	@Column(name = "id_proveedor")
 	Long id_proveedor;
 	
+
 	@Getter
     @Setter
 	@Column(name = "id_tienda")

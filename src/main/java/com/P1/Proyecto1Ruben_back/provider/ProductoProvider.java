@@ -2,6 +2,8 @@ package com.P1.Proyecto1Ruben_back.provider;
 
 import java.util.List;
 
+import com.P1.Proyecto1Ruben_back.dto.PaginadoDto;
+import com.P1.Proyecto1Ruben_back.dto.ProductoAllDto;
 import com.P1.Proyecto1Ruben_back.dto.ProductoDto;
 
 /**
@@ -15,7 +17,7 @@ public interface ProductoProvider {
 	 * @param id El identificador del producto a buscar.
 	 * @return La entidad producto correspondiente al identificador id.
 	 */
-	ProductoDto findProductoById(Long id);
+	ProductoAllDto findProductoById(Long id);
 	/**
 	 * Crea un producto con la información proporcionada.
      * @param producto Un objeto ProductoDto que contiene la informacion del producto a crear.
@@ -39,9 +41,9 @@ public interface ProductoProvider {
      * 
      * @return Una lista de entidades producto que representa todos los productos.
      */
-    List<ProductoDto> allProducts();
+    List<ProductoAllDto> allProducts();
     
-    List<ProductoDto>obtenerProductosPaginados(int pagina, int numProducts);
+    List<ProductoAllDto>obtenerProductosPaginados(PaginadoDto<ProductoDto> paginado);
 }
 
 

@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class VentaDto {
+	Long id;
 	Long id_producto;
 	Long id_cliente;
 }
