@@ -7,3 +7,14 @@ spring:
   jpa:
     database-platform: org.hibernate.community.dialect.SQLiteDialect
     show-sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: perezperezrodolfo550@gmail.com
+    password: gfmt yugo ffdi qibr
+    properties:
+       mail:
+         smtp:
+           auth: true
+           starttls:  
+             enable: true

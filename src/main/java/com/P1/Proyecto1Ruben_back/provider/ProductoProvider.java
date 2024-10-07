@@ -43,7 +43,7 @@ public interface ProductoProvider {
      */
     List<ProductoAllDto> allProducts();
     
-    List<ProductoAllDto>obtenerProductosPaginados(PaginadoDto<ProductoDto> paginado);
+    PaginadoDto<ProductoAllDto>obtenerProductosPaginados(int NumPagina, int TamanoPagina);
 }
 
 

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.P1.Proyecto1Ruben_back.dto.MessageResponseDto;
@@ -110,9 +111,9 @@ public class ProductoController {
 	}
 	
 	@GetMapping("/pagina")
-	public MessageResponseDto<List<ProductoAllDto>> obtenerProductosPaginados(@RequestBody PaginadoDto<ProductoDto> paginado){
+	public MessageResponseDto<PaginadoDto<ProductoAllDto>> obtenerProductosPaginados(@RequestParam int NumPagina, @RequestParam int TamanoPagina){
 		try {
-			return MessageResponseDto.success(provider.obtenerProductosPaginados(paginado));
+			return MessageResponseDto.success(provider.obtenerProductosPaginados(NumPagina, TamanoPagina));
 		}catch(Exception e) {
 			log.info("Error", e);
 			return MessageResponseDto.fail("Se ha producido un error");

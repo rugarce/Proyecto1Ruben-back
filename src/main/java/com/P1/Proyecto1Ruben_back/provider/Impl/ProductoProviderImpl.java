@@ -76,14 +76,17 @@ public class ProductoProviderImpl implements ProductoProvider {
 	}
 
 	@Override
-	public List<ProductoAllDto> obtenerProductosPaginados(PaginadoDto<ProductoDto> paginado) {
-		List<ProductoAllDto> result = new ArrayList<ProductoAllDto>();
-		Pageable page = PageRequest.of(0,12);
+	public PaginadoDto<ProductoAllDto> obtenerProductosPaginados(int NumPagina, int TamanoPagina) {
+		PaginadoDto<ProductoAllDto> result = new PaginadoDto<ProductoAllDto>();
+		result.setContenido(new ArrayList<ProductoAllDto>());
+		Pageable page = PageRequest.of(NumPagina,TamanoPagina);
 		Page<ProductoEntity> allPaginated = repository.getAllPaginated2(page);
 		for(ProductoEntity l :allPaginated.getContent()) {
-			ProductoAllDto productoDto = modelMapper.map(l, ProductoAllDto.class);
-			result.add(productoDto);
+			ProductoAllDto productoAllDto = modelMapper.map(l, ProductoAllDto.class);
+			result.getContenido().add(productoAllDto);
 		}
+		result.setNumElementosTotales(allPaginated.getTotalElements());
+	    result.setTamPagina(allPaginated.getSize());
 		return result;
 	}
 
