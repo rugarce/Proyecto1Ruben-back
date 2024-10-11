@@ -82,9 +82,9 @@ public class ProveedorController {
      *         o un mensaje de error si el proveedor no se encuentra.
      */
 	@PutMapping("/update/{id}")
-	public MessageResponseDto<ProveedorDto> updatePerson(@PathVariable Long id ,@RequestBody ProveedorDto proveedor) {
+	public MessageResponseDto<ProveedorDto> updatePerson(@RequestBody ProveedorDto proveedor) {
 		try {
-			return MessageResponseDto.success(provider.updateProveedor(id, proveedor));
+			return MessageResponseDto.success(provider.updateProveedor(proveedor));
 		}catch(EntityNotFoundException e) {
 			return MessageResponseDto.fail(e.getMessage());
 		}
@@ -101,7 +101,7 @@ public class ProveedorController {
 		try {
 			provider.deleteProveedorById(id);
 			return MessageResponseDto.success("Proveedor con id "+ id +" eliminado.");
-		}catch(EntityNotFoundException e) {
+		}catch(IllegalArgumentException e) {
 			return MessageResponseDto.fail(e.getMessage());
 		}
 	}

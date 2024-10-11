@@ -16,17 +16,18 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class MarcaProviderImpl implements MarcaProvider {
-	
+
 	@Autowired
 	private MarcaRepository repository;
-	
+
 	@Autowired
 	ModelMapper modelMapper;
 
 	@Override
-	
+
 	public MarcaDto findMarcaById(Long id) {
-		MarcaEntity marcaEntity = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("La marca con ID " + id + " no existe."));
+		MarcaEntity marcaEntity = repository.findById(id)
+				.orElseThrow(() -> new EntityNotFoundException("La marca con ID " + id + " no existe."));
 		MarcaDto marcaDto = modelMapper.map(marcaEntity, MarcaDto.class);
 		return marcaDto;
 	}
@@ -39,17 +40,19 @@ public class MarcaProviderImpl implements MarcaProvider {
 	}
 
 	@Override
-	public MarcaDto updateMarca(Long id, MarcaDto marca) {
-		MarcaEntity marcaEntity = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("La marca con ID " + id + " no existe."));
-		MarcaEntity marcaActualizado = modelMapper.map(marca, MarcaEntity.class);
-		marcaEntity.setNombre(marcaActualizado.getNombre());
+	public MarcaDto updateMarca(MarcaDto marca) {
+		MarcaEntity marcaEntity = repository.findById(marca.getId())
+				.orElseThrow(() -> new EntityNotFoundException("La marca con ID " + marca.getId() + " no existe."));
+		modelMapper.map(marca, marcaEntity);
 		repository.save(marcaEntity);
-		return marca = modelMapper.map(marcaEntity, MarcaDto.class);
+		return marca;
 	}
 
 	@Override
 	public void deleteMarcaById(Long id) {
-		repository.findById(id).orElseThrow( () -> new EntityNotFoundException("La marca con ID " + id + " no existe."));
+		if (id == null) {
+			throw new IllegalArgumentException("El id no puede ser nulo.");
+		}
 		repository.deleteById(id);
 	}
 
@@ -57,13 +60,11 @@ public class MarcaProviderImpl implements MarcaProvider {
 	public List<MarcaDto> allMarcas() {
 		List<MarcaEntity> listaEntity = repository.findAll();
 		List<MarcaDto> listaDto = new ArrayList<MarcaDto>();
-		for(MarcaEntity l :listaEntity) {
+		for (MarcaEntity l : listaEntity) {
 			MarcaDto marcaDto = modelMapper.map(l, MarcaDto.class);
 			listaDto.add(marcaDto);
 		}
 		return listaDto;
 	}
-	
-
 
 }

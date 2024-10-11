@@ -8,7 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 import com.P1.Proyecto1Ruben_back.entity.ProductoEntity;
 
@@ -19,7 +18,7 @@ import com.P1.Proyecto1Ruben_back.entity.ProductoEntity;
  * realizar operaciones CRUD. Además tambien se pueden definir metodos personalizados con la etiqueta @Query.
  */
 
-@Repository
+
 public interface ProductoRepository extends JpaRepository<ProductoEntity, Long>{
 	 @Query("select p from ProductoEntity p")
 	 List<ProductoEntity> getAllPaginated(Pageable pageable);

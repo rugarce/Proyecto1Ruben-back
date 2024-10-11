@@ -16,14 +16,13 @@ public class EmailJob extends QuartzJobBean{
 	@Autowired
 	private EmailProvider emailService;
 
-
 	@Override
 	protected void executeInternal(JobExecutionContext context){
 		String to = "rubengarciaeguizabal23@gmail.com";
         String subject = "Notificación Programada";
         String text = "Este es un correo programado.";
 
-        emailService.sendEmail(to, subject, text);
+        //emailService.sendEmail(to, subject, text);
         log.info("Correo enviado exitosamente!");
 	}
 

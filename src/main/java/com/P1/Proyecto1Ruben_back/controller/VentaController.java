@@ -86,9 +86,9 @@ public class VentaController {
      *         o un mensaje de error si la venta no se encuentra.
      */
 	@PutMapping("/update/{id}")
-	public MessageResponseDto<VentaDto> updateVenta(@PathVariable Long id ,@RequestBody VentaDto venta) {
+	public MessageResponseDto<VentaDto> updateVenta(@RequestBody VentaDto venta) {
 		try {
-			return MessageResponseDto.success(provider.updateVenta(id, venta));
+			return MessageResponseDto.success(provider.updateVenta(venta));
 		}catch(EntityNotFoundException e) {
 			return MessageResponseDto.fail(e.getMessage());
 		}
@@ -105,7 +105,7 @@ public class VentaController {
 		try {
 			provider.deleteVentaById(id);
 			return MessageResponseDto.success("La venta con id "+id+" ha sido eliminada.");
-		}catch(EntityNotFoundException e) {
+		}catch(IllegalArgumentException e) {
 			return MessageResponseDto.fail(e.getMessage());
 		}
 	}

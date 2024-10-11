@@ -82,9 +82,9 @@ public class TiendaController {
      *         o un mensaje de error si la tienda no se encuentra.
      */
 	@PutMapping("/update/{id}")
-	public MessageResponseDto<TiendaDto> updateTienda(@PathVariable Long id ,@RequestBody TiendaDto tienda) {
+	public MessageResponseDto<TiendaDto> updateTienda(@RequestBody TiendaDto tienda) {
 		try {
-			return MessageResponseDto.success(provider.updateTienda(id, tienda));
+			return MessageResponseDto.success(provider.updateTienda(tienda));
 		}catch(EntityNotFoundException e) {
 			return MessageResponseDto.fail(e.getMessage());
 		}
@@ -101,7 +101,7 @@ public class TiendaController {
 		try {
 			provider.deleteTiendaById(id);
 			return MessageResponseDto.success("La tienda con id "+ id +" ha sido eliminada.");
-		}catch(EntityNotFoundException e) {
+		}catch(IllegalArgumentException e) {
 			return MessageResponseDto.fail(e.getMessage());
 		}
 	}

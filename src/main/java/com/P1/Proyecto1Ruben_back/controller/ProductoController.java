@@ -71,9 +71,9 @@ public class ProductoController {
      *         o un mensaje de error si el producto no se encuentra.
      */
 	@PutMapping("/update/{id}")
-	public MessageResponseDto<ProductoDto> updatePerson(@PathVariable Long id ,@RequestBody ProductoDto producto) {
+	public MessageResponseDto<ProductoDto> updatePerson(@RequestBody ProductoDto producto) {
 		try {
-			return MessageResponseDto.success(provider.updateProducto(id, producto));
+			return MessageResponseDto.success(provider.updateProducto(producto));
 		}catch(EntityNotFoundException e) {
 			return MessageResponseDto.fail(e.getMessage());
 		}
@@ -105,7 +105,7 @@ public class ProductoController {
 		try {
 			provider.deleteProductoById(id);
 			return MessageResponseDto.success("El producto con id "+id+" ha sido eliminado.");
-		}catch(EntityNotFoundException e) {
+		}catch(IllegalArgumentException e) {
 			return MessageResponseDto.fail(e.getMessage());
 		}
 	}

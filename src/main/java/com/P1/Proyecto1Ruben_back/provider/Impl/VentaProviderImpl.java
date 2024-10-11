@@ -34,29 +34,22 @@ public class VentaProviderImpl implements VentaProvider {
 	public Long createVenta(VentaDto venta) {
 		VentaEntity ventaEntity = modelMapper.map(venta, VentaEntity.class);
 		ventaEntity = repository.save(ventaEntity);
-//		ventaEntity.getProducto().setCantidad(ventaEntity.getProducto().getCantidad() - 1);
 		return ventaEntity.getId();
 	}
 
 	@Override
-	public VentaDto updateVenta(Long id, VentaDto venta) {
-		VentaEntity ventaEntity = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("El producto con ID " + id + " no existe."));
-		VentaEntity ventaActualizada = modelMapper.map(venta, VentaEntity.class);
-		
-//		ventaEntity.getProducto().setCantidad(ventaEntity.getProducto().getCantidad() + 1);
-//		ventaActualizada.getProducto().setCantidad(ventaActualizada.getProducto().getCantidad() - 1);
-		
-		ventaEntity.setId_cliente(ventaActualizada.getId_cliente());
-		ventaEntity.setId_producto(ventaActualizada.getId_producto());
+	public VentaDto updateVenta(VentaDto venta) {
+		VentaEntity ventaEntity = repository.findById(venta.getId()).orElseThrow( () -> new EntityNotFoundException("El producto con ID " + venta.getId() + " no existe."));
+		modelMapper.map(venta, ventaEntity);
 		repository.save(ventaEntity);
-		venta = modelMapper.map(ventaEntity, VentaDto.class);
 		return venta;
 	}
 
 	@Override
 	public void deleteVentaById(Long id) {
-		//VentaEntity ventaEntity = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("El producto con ID " + id + " no existe."));
-		//ventaEntity.getProducto().setCantidad(ventaEntity.getProducto().getCantidad() + 1);
+		if(id==null) {
+			throw new IllegalArgumentException ("El id no puede ser nulo.");
+		}
 		repository.deleteById(id);
 	}
 

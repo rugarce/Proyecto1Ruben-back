@@ -30,7 +30,7 @@ public interface ProductoProvider {
      * @param producto Un objeto ProductoDto que contiene la información actualizada del producto.
      * @return La entidad producto actualizada.
 	 */
-	ProductoDto updateProducto(Long id, ProductoDto producto);
+	ProductoDto updateProducto(ProductoDto producto);
 	/**
 	 * Elimina un producto por su id. 
      * @param id El identificador único del producto a eliminar.

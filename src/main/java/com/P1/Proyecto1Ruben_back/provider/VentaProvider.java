@@ -33,7 +33,7 @@ public interface VentaProvider {
      * @param venta Un objeto VentaDto que contiene la información actualizada de la venta.
      * @return La entidad venta actualizada.
      */
-	VentaDto updateVenta(Long id, VentaDto venta);
+	VentaDto updateVenta(VentaDto venta);
 	
 	/**
      * Elimina una venta por su id.

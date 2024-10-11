@@ -83,9 +83,9 @@ public class MarcaController {
      *         o un mensaje de error si la marca no se encuentra.
      */
 	@PutMapping("/update/{id}")
-	public MessageResponseDto<MarcaDto> updatePerson(@PathVariable Long id ,@RequestBody MarcaDto marca) {
+	public MessageResponseDto<MarcaDto> updatePerson(@RequestBody MarcaDto marca) {
 		try {
-			return MessageResponseDto.success(provider.updateMarca(id, marca));
+			return MessageResponseDto.success(provider.updateMarca(marca));
 		}catch(EntityNotFoundException e) {
 			return MessageResponseDto.fail(e.getMessage());
 		}
@@ -102,7 +102,7 @@ public class MarcaController {
 		try {
 			provider.deleteMarcaById(id);
 			return MessageResponseDto.success("Marca con id "+ id +" eliminada");
-		}catch(EntityNotFoundException e) {
+		}catch(IllegalArgumentException e) {
 			return MessageResponseDto.fail(e.getMessage());
 		}
 	}

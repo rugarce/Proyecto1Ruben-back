@@ -28,7 +28,7 @@ public interface MarcaProvider {
      * @param marca Un objeto MarcaDto que contiene la información actualizada de la marca.
      * @return La entidad marca actualizada.
 	 */
-	MarcaDto updateMarca(Long id, MarcaDto marca);
+	MarcaDto updateMarca(MarcaDto marca);
 	/**
 	 * Elimina una marca por su id. 
      * @param id El identificador único de la marca a eliminar.

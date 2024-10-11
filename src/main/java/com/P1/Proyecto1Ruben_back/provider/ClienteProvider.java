@@ -37,7 +37,7 @@ public interface ClienteProvider {
      * @param cliente Un objeto ClienteDto que contiene la información actualizada del cliente.
      * @return La entidad cliente actualizada.
 	 */
-	ClienteDto updateCliente(Long id, ClienteDto cliente);
+	ClienteDto updateCliente(ClienteDto cliente);
 	
 	/**
 	 * Elimina un cliente por su id. 

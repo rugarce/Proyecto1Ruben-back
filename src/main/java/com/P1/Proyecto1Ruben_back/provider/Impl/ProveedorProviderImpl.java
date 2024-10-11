@@ -37,23 +37,19 @@ public class ProveedorProviderImpl implements ProveedorProvider{
 	}
 
 	@Override
-	public ProveedorDto updateProveedor(Long id, ProveedorDto proveedor) {
-		ProveedorEntity proveedorEntity = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("El proveedor con ID " + id + " no existe."));
-		if(proveedorEntity!=null) {
-			ProveedorEntity proveedorActualizado = modelMapper.map(proveedor, ProveedorEntity.class);
-			proveedorEntity.setNombre(proveedorActualizado.getNombre());
-			proveedorEntity.setDireccion(proveedorActualizado.getDireccion());
-			proveedorEntity.setTfno(proveedorActualizado.getTfno());
-			repository.save(proveedorEntity);
-			return proveedor = modelMapper.map(proveedorEntity, ProveedorDto.class);
-		}else {
-			throw new RuntimeException("Proveedor no encontrado");
-		}
+	public ProveedorDto updateProveedor(ProveedorDto proveedor) {
+		ProveedorEntity proveedorEntity = repository.findById(proveedor.getId())
+				.orElseThrow( () -> new EntityNotFoundException("El proveedor con ID " + proveedor.getId() + " no existe."));
+		modelMapper.map(proveedor, proveedorEntity);
+		repository.save(proveedorEntity);
+		return proveedor;
 	}
 
 	@Override
 	public void deleteProveedorById(Long id) {
-		repository.findById(id).orElseThrow( () -> new EntityNotFoundException("El proveedor con ID " + id + " no existe."));
+		if(id==null) {
+			throw new IllegalArgumentException ("El id no puede ser nulo.");
+		}
 		repository.deleteById(id);;
 	}
 

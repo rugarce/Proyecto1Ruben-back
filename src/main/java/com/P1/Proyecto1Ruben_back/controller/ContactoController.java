@@ -47,6 +47,7 @@ public class ContactoController {
 	        @RequestParam String mensaje,
 	        @RequestParam List<MultipartFile> attachments) {
 		try {
+			log.info("Correo con archivos adjuntos");
 			emailService.sendEmailWithAttach(correo, asunto,mensaje,attachments);
 			return MessageResponseDto.success("Correo enviado");
 		} catch (Exception e) {

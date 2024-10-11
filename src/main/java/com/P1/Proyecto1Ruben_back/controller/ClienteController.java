@@ -125,9 +125,9 @@ public class ClienteController {
      *         o un mensaje de error si el cliente no se encuentra.
      */
 	@PutMapping("/update/{id}")
-	public MessageResponseDto<ClienteDto> updatePerson(@PathVariable Long id ,@RequestBody ClienteDto cliente) {
+	public MessageResponseDto<ClienteDto> updatePerson(@RequestBody ClienteDto cliente) {
 		try {
-			return MessageResponseDto.success(provider.updateCliente(id,cliente));
+			return MessageResponseDto.success(provider.updateCliente(cliente));
 		}catch(EntityNotFoundException e) {
 			return MessageResponseDto.fail(e.getMessage());
 		}
@@ -144,7 +144,7 @@ public class ClienteController {
 		try {
 			provider.deleteClienteById(id);
 			return MessageResponseDto.success("Cliente con id "+ id +" eliminado.");
-		}catch(EntityNotFoundException e) {
+		}catch(IllegalArgumentException e) {
 			return MessageResponseDto.fail(e.getMessage());
 		}
 	}

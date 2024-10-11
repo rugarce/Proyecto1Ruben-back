@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import com.P1.Proyecto1Ruben_back.entity.ClienteEntity;
 
@@ -16,7 +15,7 @@ import com.P1.Proyecto1Ruben_back.entity.ClienteEntity;
  * realizar operaciones CRUD. Además tambien se pueden definir metodos personalizados con la etiqueta @Query.
  */
 
-@Repository
+
 public interface ClienteRepository extends JpaRepository<ClienteEntity, Long> {
 	/**
 	 * Encuentra al cliente por su nombre.

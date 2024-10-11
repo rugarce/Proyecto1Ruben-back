@@ -30,7 +30,7 @@ public interface TiendaProvider {
      * @param tienda Un objeto TiendaDto que contiene la información actualizada de la tienda.
      * @return La entidad tienda actualizada.
 	 */
-	TiendaDto updateTienda(Long id, TiendaDto tienda);
+	TiendaDto updateTienda(TiendaDto tienda);
 	
 	/**
 	 * Elimina una tienda por su id. 

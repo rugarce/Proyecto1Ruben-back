@@ -44,23 +44,18 @@ public class ProductoProviderImpl implements ProductoProvider {
 	}
 
 	@Override
-	public ProductoDto updateProducto(Long id, ProductoDto producto) {
-		ProductoEntity productoEntity = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("El producto con ID " + id + " no existe."));
-		ProductoEntity productoActualizado = modelMapper.map(producto, ProductoEntity.class);
-		productoEntity.setNombre(productoActualizado.getNombre());
-		productoEntity.setCantidad(productoActualizado.getCantidad());
-		productoEntity.setPrecio(productoActualizado.getPrecio());
-		productoEntity.setId_marca(productoActualizado.getId_marca());
-		productoEntity.setId_proveedor(productoActualizado.getId_proveedor());
-		productoEntity.setId_tienda(productoActualizado.getId_tienda());
+	public ProductoDto updateProducto(ProductoDto producto) {
+		ProductoEntity productoEntity = repository.findById(producto.getId()).orElseThrow( () -> new EntityNotFoundException("El producto con ID " + producto.getId() + " no existe."));
+		modelMapper.map(producto, productoEntity);
 		repository.save(productoEntity);
-		producto = modelMapper.map(productoEntity, ProductoDto.class);
 		return producto;
 	}
 
 	@Override
 	public void deleteProductoById(Long id) {
-		repository.findById(id).orElseThrow( () -> new EntityNotFoundException("El producto con ID " + id + " no existe."));
+		if(id==null) {
+			throw new IllegalArgumentException ("El id no puede ser nulo.");
+		}
 		repository.deleteById(id);
 	}
 
@@ -76,11 +71,12 @@ public class ProductoProviderImpl implements ProductoProvider {
 	}
 
 	@Override
-	public PaginadoDto<ProductoAllDto> obtenerProductosPaginados(int NumPagina, int TamanoPagina) {
+	public PaginadoDto<ProductoAllDto> obtenerProductosPaginados(int numPagina, int tamanoPagina) {
 		PaginadoDto<ProductoAllDto> result = new PaginadoDto<ProductoAllDto>();
-		result.setContenido(new ArrayList<ProductoAllDto>());
-		Pageable page = PageRequest.of(NumPagina,TamanoPagina);
+		
+		Pageable page = PageRequest.of(numPagina,tamanoPagina);
 		Page<ProductoEntity> allPaginated = repository.getAllPaginated2(page);
+		
 		for(ProductoEntity l :allPaginated.getContent()) {
 			ProductoAllDto productoAllDto = modelMapper.map(l, ProductoAllDto.class);
 			result.getContenido().add(productoAllDto);

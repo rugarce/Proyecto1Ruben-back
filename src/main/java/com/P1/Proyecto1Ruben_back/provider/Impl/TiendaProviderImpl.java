@@ -38,18 +38,18 @@ public class TiendaProviderImpl implements TiendaProvider {
 	}
 
 	@Override
-	public TiendaDto updateTienda(Long id, TiendaDto tienda) {
-		TiendaEntity tiendaEntity = repository.findById(id).orElseThrow( () -> new EntityNotFoundException("La tienda con ID " + id + " no existe."));
-		TiendaEntity tiendaActualizada= modelMapper.map(tienda, TiendaEntity.class);
-		tiendaEntity.setNombre(tiendaActualizada.getNombre());
-		tiendaEntity.setDireccion(tiendaActualizada.getDireccion());
+	public TiendaDto updateTienda(TiendaDto tienda) {
+		TiendaEntity tiendaEntity = repository.findById(tienda.getId()).orElseThrow( () -> new EntityNotFoundException("La tienda con ID " + tienda.getId() + " no existe."));
+		modelMapper.map(tienda,tiendaEntity);
 		repository.save(tiendaEntity);
-		return tienda= modelMapper.map(tiendaEntity, TiendaDto.class);
+		return tienda;
 	}
 
 	@Override
 	public void deleteTiendaById(Long id) {
-		repository.findById(id).orElseThrow( () -> new EntityNotFoundException("La tienda con ID " + id + " no existe."));
+		if(id==null) {
+			throw new IllegalArgumentException ("El id no puede ser nulo.");
+		}
 		repository.deleteById(id);
 	}
 
