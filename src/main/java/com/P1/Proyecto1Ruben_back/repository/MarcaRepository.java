@@ -1,6 +1,10 @@
 package com.P1.Proyecto1Ruben_back.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.P1.Proyecto1Ruben_back.entity.MarcaEntity;
 
@@ -13,5 +17,8 @@ import com.P1.Proyecto1Ruben_back.entity.MarcaEntity;
 
 
 public interface MarcaRepository extends JpaRepository<MarcaEntity, Long>{
+	
+	@Query("SELECT m FROM MarcaEntity m WHERE m.nombre = :nombre")
+	List<MarcaEntity> findByName(@Param("nombre") String name);
 
 }

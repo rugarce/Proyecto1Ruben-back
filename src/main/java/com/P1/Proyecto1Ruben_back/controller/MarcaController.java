@@ -62,6 +62,15 @@ public class MarcaController {
 		
 	}
 	
+	@GetMapping("/nombre/{nombre}")
+	public MessageResponseDto<List<MarcaDto>> findByName(@PathVariable("nombre") String name) {
+		try {
+			return MessageResponseDto.success(provider.findMarcaByName(name)); 
+		}catch(EntityNotFoundException e) {
+			return MessageResponseDto.fail(e.getMessage());
+		}
+	}
+	
 	/**
      * Crea una nueva marca.
      * 

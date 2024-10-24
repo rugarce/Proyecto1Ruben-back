@@ -16,6 +16,8 @@ public interface MarcaProvider {
 	 * @return La entidad marca correspondiente al identificador id.
 	 */
 	MarcaDto findMarcaById(Long id);
+	
+	List<MarcaDto> findMarcaByName(String name);
 	/**
 	 * Crea una nueva marca con la información proporcionada.
      * @param marca Un objeto MarcaDto que contiene la informacion de la marca a crear.

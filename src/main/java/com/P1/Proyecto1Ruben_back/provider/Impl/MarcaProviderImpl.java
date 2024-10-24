@@ -67,4 +67,18 @@ public class MarcaProviderImpl implements MarcaProvider {
 		return listaDto;
 	}
 
+	@Override
+	public List<MarcaDto> findMarcaByName(String name) {
+		if (repository.findByName(name).isEmpty()) {
+			throw new EntityNotFoundException("El cliente con nombre " + name + " no existe.");
+		}
+		List<MarcaEntity> listaEntity = repository.findByName(name);
+		List<MarcaDto> listaDto = new ArrayList<MarcaDto>();
+		for (MarcaEntity l : listaEntity) {
+			MarcaDto marcaDto = modelMapper.map(l, MarcaDto.class);
+			listaDto.add(marcaDto);
+		}
+		return listaDto;
+	}
+
 }
